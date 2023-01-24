@@ -1,5 +1,5 @@
 import "./index.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { styled } from "@mui/material/styles";
 import { Theme } from "./Theme";
@@ -48,17 +48,9 @@ const MyTextField = ({ text, ...props }) => {
 
 function App() {
   const [text, setText] = useState("");
-  const [answerDisplay, setAnswerDisplay] = useState("none");
   const clickHandler = () => {
     setText("Hello, I am the ChatBot.");
   };
-  useEffect(() => {
-    if (text) {
-      setAnswerDisplay("flex");
-    } else {
-      setAnswerDisplay("none");
-    }
-  }, [text]);
   return (
     <>
       <Theme>
@@ -108,7 +100,7 @@ function App() {
                 justifyContent="center"
                 sx={{
                   marginTop: 5,
-                  display: answerDisplay === "none" ? "none" : "flex",
+                  display: text ? "flex" : "none",
                 }}
               >
                 <Grid item mobile={12} tablet={12} laptop={12}>
