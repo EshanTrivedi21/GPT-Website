@@ -24,18 +24,18 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   try {
-    const prompt = req.body;
+    const prompt = req.body.prompt;
+    console.log(prompt);
     const response = await openai.createCompletion({
-      model: "text-davinci-003",
+      model: "text-davinci-002",
       prompt: `${prompt}`,
       temperature: 0.9,
-      maxTokens: 1000,
-      topP: 1,
-      frequencyPenalty: 0.5,
-      presencePenalty: 0,
+      max_tokens: 250,
+      frequency_penalty: 0.5,
+      presence_penalty: 0,
     });
     res.status(200).send({
-      bot: response.data.choices[0].text,
+      bot: response.data.choices[0].text.trim(),
     });
   } catch (error) {
     console.log(error);
