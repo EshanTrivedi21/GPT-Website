@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenAI Chatbot</title>
+  </head>
+  <body>
+    <h1>OpenAI Chatbot</h1>
+    <form>
+      <label for="prompt">Ask a question:</label>
+      <input type="text" id="prompt" name="prompt" />
+      <button type="button" onclick="sendPrompt()">Send</button>
+    </form>
+    <p id="response"></p>
+<script>
+      function sendPrompt() {
+        const prompt = document.getElementById("prompt").value;
+        const apiKey = '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';
+        const url = `https://api.openai.com/v1/engines/davinci/completions`;
+        const data = {
+          prompt: prompt,
+          temperature: 0.5,
+          max_tokens: 150,
+          top_p: 1,
+          frequency_penalty: 0,
+          presence_penalty: 0
+        };
+
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(response.statusText);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data.choices && data.choices.length > 0) {
+              document.getElementById("response").innerHTML = data.choices[0].text;
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            document.getElementById("response").innerHTML = "Error: " + error;
+          });
+      }
+    </script>
+
+  </body>
+</html>
