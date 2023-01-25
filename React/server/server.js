@@ -24,7 +24,7 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   try {
-    const prompt = req.body.prompt;
+    const prompt = req.body;
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: `${prompt}`,
@@ -41,6 +41,7 @@ app.post("/", async (req, res) => {
     console.log(error);
     res.status(500).send({
       error,
+      message: "Internal Server Error",
     });
   }
 });

@@ -42,14 +42,32 @@ const CssButton = styled(Button)({
 });
 
 const MyTextField = ({ text, ...props }) => {
-  const rows = Math.ceil(text.length / 40);
+  const rows = text ? Math.ceil(text.length / 40) : 1;
   return <CssTextField {...props} rows={rows} multiline value={text} />;
 };
 
 function App() {
   const [text, setText] = useState("");
-  const clickHandler = () => {
-    setText("Hello, I am the ChatBot.");
+  const [prompt, setPrompt] = useState("");
+  const promptHandler = (e) => {
+    setPrompt(e.target.value);
+  };
+  const clickHandler = async (e) => {
+    try {
+      const response = await fetch("http://localhost:5000/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+        }),
+      });
+      const data = await response.json();
+      setText(data.bot);
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <>
@@ -78,8 +96,10 @@ function App() {
               <Grid container justifyContent="space-between">
                 <Grid item mobile={9} tablet={10.25} laptop={10.25}>
                   <CssTextField
+                    name="prompt"
                     label="Ask Your Question"
                     variant="outlined"
+                    onChange={promptHandler}
                     fullWidth
                   />
                 </Grid>
