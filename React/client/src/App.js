@@ -72,17 +72,17 @@ function App() {
   return (
     <>
       <Theme>
-        <Grid container justifyContent="center">
+        <Grid container justifyContent="center" alignItems="center" style={{
+          height: "100vh",
+        }}>
           <Grid item mobile={12} tablet={8} laptop={5}>
             <Box
               sx={{
                 width: "100%",
                 minHeight: { mobile: "100vh", tablet: "auto", laptop: "auto" },
                 backgroundColor: "white",
-                my: "50vh",
                 p: { mobile: 2.5, tablet: 5, laptop: 5 },
                 py: { mobile: 10, tablet: 5, laptop: 5 },
-                transform: "translateY(-50%)",
                 overflow: "hidden",
               }}
             >
